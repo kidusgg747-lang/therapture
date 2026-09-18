@@ -16,6 +16,8 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build APK with Buildozer
+        env:
+          BUILDOZER_ALLOW_KIVY_BUILD_ON_ROOT: 1
         run: |
           yes | buildozer android debug
 
