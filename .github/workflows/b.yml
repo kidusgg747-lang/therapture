@@ -1,0 +1,2 @@
+# (str) Bool to automatically accept SDK license agreement
+android.accept_sdk_license = True
