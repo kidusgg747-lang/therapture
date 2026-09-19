@@ -17,13 +17,12 @@ jobs:
 
       - name: Build APK as Non-Root User
         run: |
-          # Create a non-root user 'builder' and assign ownership
-          useradd -m builder
-          chown -R builder:builder .
-          
-          - name: Build with Buildozer
-      run: |
-        python -m buildozer android debug
+          # Create user and set permissions
+          useradd -m builder || true
+          chown -R builder:builder . /github/home
+
+          # Run buildozer with full system PATH as builder
+          su builder -c "export PATH=\$PATH:/root/.local/bin:/usr/local/bin; yes | buildozer android debug"
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
