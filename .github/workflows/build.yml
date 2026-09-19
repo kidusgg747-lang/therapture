@@ -15,14 +15,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Build APK as Non-Root User
+      - name: Build APK with Buildozer
+        env:
+          BUILDOZER_WARN_ON_ROOT: 0
+          BUILDOZER_ALLOW_KIVY_BUILD_ON_ROOT: 1
         run: |
-          # Create user and set permissions
-          useradd -m builder || true
-          chown -R builder:builder . /github/home
-
-          # Run buildozer with full system PATH as builder
-          su builder -c "export PATH=\$PATH:/root/.local/bin:/usr/local/bin; yes | buildozer android debug"
+          yes | buildozer android debug
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
